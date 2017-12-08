@@ -14,9 +14,9 @@
 		destroy-method="close">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url"
-			value="jdbc:postgresql://pgsql.stage.test.tv2net.dk:5432/login" />
-		<property name="username" value="loginbackenduser" />
-		<property name="password" value="g2QS9faqOa92_djh" />
+			value="jdbc:postgresql://world.dk:5432/login" />
+		<property name="username" value="scott" />
+		<property name="password" value="tiger" />
 	</bean>
 
 	<!-- configure the Camel SQL component to use the JDBC data source -->
@@ -29,7 +29,7 @@
 		<route>
 			<from uri="direct:getLogin" />
 			<to
-				uri="sql:select * from tv2user where email = :#${header.name} ?dataSource=dataSource" />
+				uri="sql:select * from atable where email = :#${header.name} ?dataSource=dataSource" />
 			<log message="XXXXXXXXXXXXXXX ${body}" />
 		</route>
 
@@ -42,6 +42,3 @@
 	</camelContext>
 
 </beans>
-<!-- end::example[] from("direct:getLogin") .to("sql:select * from tv2user 
-	where email = :#${header.name} ?dataSource=myDataSource"); // from("restlet:http://0.0.0.0:{{port}}/login/{name}") 
-	.setExchangePattern(ExchangePattern.InOut) .to("direct:getLogin"); -->
