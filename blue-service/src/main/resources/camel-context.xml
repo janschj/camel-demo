@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+          http://www.springframework.org/schema/beans/spring-beans-4.2.xsd  
+          http://camel.apache.org/schema/spring 
+          http://camel.apache.org/schema/spring/camel-spring.xsd
+          http://www.springframework.org/schema/util 
+          http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<!-- this is the JDBC data source which uses an in-memory only Apache Derby 
+		database -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url"
+			value="jdbc:postgresql://pgsql.stage.test.tv2net.dk:5432/login" />
+		<property name="username" value="loginbackenduser" />
+		<property name="password" value="g2QS9faqOa92_djh" />
+	</bean>
+
+	<!-- configure the Camel SQL component to use the JDBC data source -->
+	<bean id="sql" class="org.apache.camel.component.sql.SqlComponent">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+		<!-- this is an included XML file where we only the the routeContext -->
+		<route>
+			<from uri="direct:getLogin" />
+			<to
+				uri="sql:select * from tv2user where email = :#${header.name} ?dataSource=dataSource" />
+			<log message="XXXXXXXXXXXXXXX ${body}" />
+		</route>
+
+		<route>
+			<from uri="restlet:http://0.0.0.0:{{port}}/login/{name}" />
+			<setExchangePattern pattern="InOut" />
+			<to uri="direct:getLogin" />
+		</route>
+
+	</camelContext>
+
+</beans>
+<!-- end::example[] from("direct:getLogin") .to("sql:select * from tv2user 
+	where email = :#${header.name} ?dataSource=myDataSource"); // from("restlet:http://0.0.0.0:{{port}}/login/{name}") 
+	.setExchangePattern(ExchangePattern.InOut) .to("direct:getLogin"); -->
