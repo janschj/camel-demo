@@ -1,19 +1,16 @@
 package dk.tv2.camel.demo.routes;
 
-import javax.sql.DataSource;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.model.ProcessorDefinition;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class LoginServiceRouteBuilderTest extends CamelSpringTestSupport {
+public class DateServiceRouteBuilderTest extends CamelSpringTestSupport {
  
     private boolean debugBeforeMethodCalled;
     private boolean debugAfterMethodCalled;
@@ -46,16 +43,6 @@ protected AbstractApplicationContext createApplicationContext() {
  //   assertEquals(LocalDate.class, date.getClass());
   }
 
-  
-  private static DataSource setupDataSource(String connectURI) {
-	  System.out.println("setupDataSource XXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-      BasicDataSource ds = new BasicDataSource();
-      ds.setDriverClassName("org.postgresql.Driver");
-      ds.setUsername("loginbackenduser");
-      ds.setPassword("g2QS9faqOa92_djh");
-      ds.setUrl(connectURI);
-      return ds;
-  } 
   
   @Override
   public boolean isUseDebugger() {

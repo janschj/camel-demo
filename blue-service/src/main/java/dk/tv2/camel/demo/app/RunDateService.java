@@ -4,12 +4,12 @@ import org.apache.camel.spring.Main;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class RunLoginService {
+public class RunDateService {
 
   private Main main;
 
   public static void main(String[] args) throws Exception {
-    RunLoginService app = new RunLoginService();
+    RunDateService app = new RunDateService();
     final String port = (args.length == 1 ? args[0] : "8765");
     app.boot(port);
   }
